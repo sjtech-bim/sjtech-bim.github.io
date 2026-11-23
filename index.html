@@ -1319,13 +1319,13 @@ document.getElementById('form').addEventListener('submit',e=>{
 
   // controls
   let theta=.75,phi=.95,vt=0,dragging=false,px=0,py=0,last=performance.now(),start=performance.now();
-  const R=60;
+  let R=60,lookY=.6;
   el.addEventListener('pointerdown',e=>{dragging=true;px=e.clientX;py=e.clientY;el.setPointerCapture(e.pointerId)});
   el.addEventListener('pointermove',e=>{if(!dragging)return;theta+=(e.clientX-px)*.008;phi=Math.max(.35,Math.min(1.35,phi-(e.clientY-py)*.006));vt=(e.clientX-px)*.008;px=e.clientX;py=e.clientY});
   el.addEventListener('pointerup',()=>dragging=false);
   el.addEventListener('pointercancel',()=>dragging=false);
 
-  function resize(){const w=el.clientWidth,h=el.clientHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+  function resize(){const w=el.clientWidth,h=el.clientHeight;const narrow=w<520;R=narrow?66:60;lookY=narrow?-3.2:.6;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
   new ResizeObserver(resize).observe(el);resize();
 
   let visible=true;
@@ -1343,7 +1343,7 @@ document.getElementById('form').addEventListener('submit',e=>{
       a.o.scale.setScalar(.001+e*.999);
     });
     cam.position.set(R*Math.sin(phi)*Math.cos(theta),R*Math.cos(phi),R*Math.sin(phi)*Math.sin(theta));
-    cam.lookAt(1.2,.6,0);
+    cam.lookAt(1.2,lookY,0);
     renderer.render(scene,cam);
   }
   requestAnimationFrame(tick);
