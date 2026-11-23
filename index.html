@@ -206,7 +206,7 @@ h2 small{display:block;font-family:var(--latin);font-size:16px;font-weight:500;c
 .val .k sup{font-size:22px;color:var(--orange);vertical-align:top;margin-left:4px}
 .val h3{font-size:20px;margin:18px 0 8px}
 .val p{font-size:15px;color:var(--ink-2)}
-.val.feature{grid-row:span 2;background:var(--orange);color:#fff;border-color:var(--orange);display:flex;flex-direction:column;justify-content:space-between}
+.val.feature{grid-row:span 2;background:var(--orange);color:#fff;border-color:var(--orange);display:flex;flex-direction:column;justify-content:center;gap:22px}
 .val.feature p{color:rgba(255,255,255,.88);font-size:16.5px}
 .val.feature h3{font-size:30px;font-weight:900;line-height:1.3}
 .val.feature .mono{color:rgba(255,255,255,.75)}
@@ -335,7 +335,8 @@ footer{padding:50px 0 40px}
   .brand-name b{font-size:18px}
   .brand-name span{font-size:11px}
   .burger{width:38px;height:38px;order:-1}
-  .nav{justify-content:flex-start;gap:12px}
+  .nav{justify-content:flex-start;gap:12px;position:relative}
+  .brand{position:absolute;left:50%;transform:translateX(-50%)}
 
   /* section rhythm */
   section.block{padding:52px 0}
@@ -584,6 +585,16 @@ footer{padding:50px 0 40px}
   .chips{gap:4px}
   .chips span{padding:4px 8px;font-size:11.5px}
   form .btn{padding:11px}
+
+  /* workflow: compact list, number + title on one line */
+  #workflow .swipe-hint{display:none}
+  .flow{display:grid;grid-template-columns:1fr;gap:6px;overflow:visible;margin:0;padding:0;scroll-snap-type:none}
+  .flow>*{flex:none}
+  .step{display:grid;grid-template-columns:28px 1fr auto;column-gap:10px;row-gap:2px;align-items:center;padding:10px 12px;border-radius:12px}
+  .step .dot{grid-column:1;grid-row:1;width:28px;height:28px;font-size:11px;border-width:1.5px}
+  .step h3{grid-column:2;grid-row:1;margin:0;font-size:15px}
+  .step .out{grid-column:3;grid-row:1;margin:0;font-size:9.5px;padding:2px 6px;white-space:nowrap}
+  .step p{grid-column:2/4;grid-row:2;font-size:12.5px;line-height:1.55}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
@@ -632,8 +643,8 @@ footer{padding:50px 0 40px}
     <div class="viewer" aria-label="互動式 3D 模型示意">
       <div class="viewer-bar">
         <div class="dots"><i></i><i></i><i></i></div>
-        <span>SJTECH_FAB_MODEL.rvt — 3D VIEW</span>
-        <span id="fps">ISO</span>
+        <span style="font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ink-2)">3D模擬</span>
+        <span id="fps" style="width:42px"></span>
       </div>
       <div id="stage"></div>
       <div class="layers" id="layers">
@@ -642,7 +653,6 @@ footer{padding:50px 0 40px}
         <button class="layer" data-layer="mep"><i style="background:#FF5B1F"></i>機電</button>
         <button class="layer" data-layer="pipe"><i style="background:#2F62F5"></i>管路</button>
       </div>
-      <div class="viewer-hint">DRAG TO ROTATE</div>
     </div>
   </div>
 </section>
@@ -1293,7 +1303,7 @@ document.getElementById('form').addEventListener('submit',e=>{
   let theta=.75,phi=.95,vt=0,dragging=false,px=0,py=0,last=performance.now(),start=performance.now();
   const R=60;
   el.addEventListener('pointerdown',e=>{dragging=true;px=e.clientX;py=e.clientY;el.setPointerCapture(e.pointerId)});
-  el.addEventListener('pointermove',e=>{if(!dragging)return;theta-=(e.clientX-px)*.008;phi=Math.max(.35,Math.min(1.35,phi-(e.clientY-py)*.006));vt=-(e.clientX-px)*.008;px=e.clientX;py=e.clientY});
+  el.addEventListener('pointermove',e=>{if(!dragging)return;theta+=(e.clientX-px)*.008;phi=Math.max(.35,Math.min(1.35,phi-(e.clientY-py)*.006));vt=(e.clientX-px)*.008;px=e.clientX;py=e.clientY});
   el.addEventListener('pointerup',()=>dragging=false);
   el.addEventListener('pointercancel',()=>dragging=false);
 
@@ -1307,7 +1317,7 @@ document.getElementById('form').addEventListener('submit',e=>{
     requestAnimationFrame(tick);
     if(!visible)return;
     const dt=Math.min(.05,(now-last)/1000);last=now;
-    if(!dragging){vt*=.94;theta+=vt+dt*.12}
+    if(!dragging){vt*=.94;theta+=vt-dt*.12}
     const t=(now-start)/1000;
     anim.forEach(a=>{
       const p=Math.max(0,Math.min(1,(t-a.d)/.7));const e=1-Math.pow(1-p,3);
