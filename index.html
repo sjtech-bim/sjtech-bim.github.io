@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SJTECH 升捷整合科技｜Revit 3D 建模・BIM 整合</title>
+<meta name="description" content="升捷整合科技有限公司（統一編號 83669627），專業 Revit 3D 建模與 BIM 整合服務，服務半導體、高科技廠房與工業物流廠房等各類工程。">
+<link rel="icon" type="image/png" href="sj-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F2EE;
+  --paper-2:#E9E8E2;
+  --ink:#101C26;
+  --ink-2:#3A4752;
+  --muted:#6B7680;
+  --line:#D3D2CB;
+  --orange:#FF5B1F;
+  --blue:#2F62F5;
+  --green:#14A37F;
+  --dark:#0D161E;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Noto Sans TC',system-ui,sans-serif;
+  --latin:'Space Grotesk','Noto Sans TC',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+
+/* ---------- NAV ---------- */
+header{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(243,242,238,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.scrolled{border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{height:48px;width:auto}
+.brand-name{line-height:1.05}
+.brand-name b{font-family:var(--latin);font-size:21px;letter-spacing:.02em;display:block}
+.brand-name span{font-size:12px;font-weight:700;letter-spacing:.18em;color:var(--ink-2)}
+.menu{display:flex;align-items:center;gap:4px;list-style:none}
+.menu a{display:block;padding:8px 14px;font-size:15px;font-weight:500;color:var(--ink-2);border-radius:999px;transition:.2s}
+.menu a:hover{color:var(--ink);background:var(--paper-2)}
+.menu a.active{color:var(--ink);background:#fff;box-shadow:0 0 0 1px var(--line)}
+.menu .cta{background:var(--ink);color:#fff;margin-left:10px;padding:9px 18px}
+.menu .cta:hover,.menu .cta.active{background:var(--orange);color:#fff;box-shadow:none}
+.burger{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;align-items:center;justify-content:center}
+.burger i{width:18px;height:2px;background:var(--ink);position:relative;display:block}
+.burger i::before,.burger i::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--ink)}
+.burger i::before{top:-6px}.burger i::after{top:6px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;padding:120px 0 60px;overflow:hidden;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:48px 48px;background-position:-1px -1px}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 45%,transparent 0,var(--paper) 72%);pointer-events:none}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.08fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 8px;background:#fff;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-2)}
+.eyebrow em{font-style:normal;background:var(--orange);color:#fff;padding:2px 8px;border-radius:999px}
+h1{font-size:clamp(46px,6.4vw,92px);font-weight:900;line-height:1.04;letter-spacing:-.02em;margin:26px 0 22px}
+h1 .hl{position:relative;white-space:nowrap}
+h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.22em;background:var(--orange);z-index:-1;transform-origin:left;animation:swipe 1s .6s cubic-bezier(.7,0,.2,1) both}
+@keyframes swipe{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.lead{font-size:18px;color:var(--ink-2);max-width:520px}
+.lead strong{color:var(--ink)}
+.hero-cta{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;font-weight:700;font-size:15px;transition:.25s;border:1px solid var(--ink);cursor:pointer;font-family:inherit}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--orange);border-color:var(--orange);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:#fff;transform:translateY(-2px)}
+.btn svg{width:16px;height:16px}
+.hero-meta{display:flex;gap:34px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
+.hero-meta div{font-size:13px;color:var(--muted)}
+.hero-meta b{display:block;font-family:var(--latin);font-size:22px;color:var(--ink);letter-spacing:.01em}
+
+.viewer{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px -30px rgba(16,28,38,.28);overflow:hidden}
+.viewer-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i:first-child{background:var(--orange)}
+#stage{height:470px;width:100%;cursor:grab;touch-action:none;background:
+  radial-gradient(circle at 50% 55%,#fff 0,#F6F6F2 70%)}
+#stage:active{cursor:grabbing}
+.layers{position:absolute;left:16px;bottom:16px;display:flex;gap:6px;flex-wrap:wrap}
+.layer{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.92);font-size:13px;font-weight:500;cursor:pointer;transition:.2s;font-family:inherit;color:var(--ink)}
+.layer i{width:10px;height:10px;border-radius:3px}
+.layer.off{opacity:.45;text-decoration:line-through}
+.viewer-hint{position:absolute;right:16px;bottom:20px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em}
+.tag-float{position:absolute;padding:6px 10px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;border-radius:6px;pointer-events:none}
+
+/* ---------- MARQUEE ---------- */
+.marquee{background:var(--ink);color:#fff;overflow:hidden;padding:18px 0;border-block:1px solid var(--ink)}
+.marquee-track{display:flex;gap:56px;width:max-content;animation:scroll 38s linear infinite}
+.marquee span{font-family:var(--latin);font-size:22px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:56px}
+.marquee span::after{content:"";width:10px;height:10px;background:var(--orange);transform:rotate(45deg)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section.block{padding:130px 0;position:relative}
+.sec-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:64px}
+.sec-no{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted);padding-top:12px;border-top:2px solid var(--ink)}
+.sec-no b{color:var(--orange);font-weight:600}
+h2{font-size:clamp(34px,4.2vw,58px);font-weight:900;line-height:1.15;letter-spacing:-.01em}
+h2 small{display:block;font-family:var(--latin);font-size:16px;font-weight:500;color:var(--muted);letter-spacing:.02em;margin-top:12px}
+.sec-intro{font-size:17px;color:var(--ink-2);max-width:720px;margin-top:20px}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px}
+.about-main p{font-size:17px;color:var(--ink-2);margin-bottom:16px}
+.about-main p strong{color:var(--ink)}
+.idcard{background:var(--ink);color:#fff;border-color:var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:360px}
+.idcard::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 40px rgba(255,255,255,.03),0 0 0 80px rgba(255,255,255,.02)}
+.idcard .mono{color:rgba(255,255,255,.55)}
+.idrow{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12);gap:20px}
+.idrow:last-child{border:0}
+.idrow span{font-size:13px;color:rgba(255,255,255,.6)}
+.idrow b{font-size:17px;font-weight:700;text-align:right}
+.idrow .taxid{font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:var(--orange)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:28px}
+.pillar{padding:28px;border-top:2px solid var(--ink)}
+.pillar .mono{color:var(--orange)}
+.pillar h3{font-size:21px;margin:10px 0 8px}
+.pillar p{color:var(--ink-2);font-size:15px}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.svc{padding:34px 28px 30px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper);transition:background .3s,color .3s;position:relative;min-height:300px;display:flex;flex-direction:column}
+.svc:hover{background:var(--ink);color:#fff}
+.svc:hover p{color:rgba(255,255,255,.7)}
+.svc:hover .svc-ic{border-color:rgba(255,255,255,.25);color:var(--orange)}
+.svc .num{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
+.svc-ic{width:52px;height:52px;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;margin:22px 0 22px;color:var(--ink);transition:.3s;background:transparent}
+.svc-ic svg{width:26px;height:26px}
+.svc h3{font-size:20px;line-height:1.35;margin-bottom:10px}
+.svc p{font-size:14.5px;color:var(--ink-2);transition:.3s}
+.svc .en{margin-top:auto;padding-top:18px;font-family:var(--latin);font-size:13px;color:var(--muted)}
+
+/* industries */
+.ind-wrap{display:grid;grid-template-columns:360px 1fr;gap:28px;align-items:stretch}
+.ind-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ind-list button{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border:1px solid var(--line);background:#fff;border-radius:14px;font-family:inherit;font-size:17px;font-weight:700;color:var(--ink);cursor:pointer;transition:.25s}
+.ind-list button span{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400}
+.ind-list button:hover{border-color:var(--ink)}
+.ind-list button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ind-list button.on span{color:var(--orange)}
+.ind-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:44px;position:relative;overflow:hidden;min-height:440px}
+.ind-panel .big{position:absolute;right:30px;bottom:-30px;font-family:var(--latin);font-size:180px;font-weight:700;color:var(--paper-2);line-height:1;pointer-events:none;user-select:none}
+.ind-panel h3{font-size:32px;font-weight:900;margin:12px 0 14px;position:relative}
+.ind-panel>p{font-size:16.5px;color:var(--ink-2);max-width:600px;position:relative}
+.ind-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px;position:relative;max-width:640px}
+.ind-points div{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--paper);border-radius:12px;font-size:15px}
+.ind-points div::before{content:"";flex:none;width:8px;height:8px;margin-top:9px;background:var(--orange);transform:rotate(45deg)}
+.fade{animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* workflow */
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative;counter-reset:s}
+.flow::before{content:"";position:absolute;top:27px;left:28px;right:28px;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px)}
+.step{position:relative;padding-right:22px}
+.step .dot{width:56px;height:56px;border-radius:50%;background:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:15px;position:relative;z-index:1;transition:.3s}
+.step:hover .dot{background:var(--orange);border-color:var(--orange);color:#fff;transform:scale(1.08)}
+.step h3{font-size:19px;margin:22px 0 8px}
+.step p{font-size:14.5px;color:var(--ink-2)}
+.step .out{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;padding:4px 8px;border:1px solid var(--line);border-radius:6px;color:var(--muted);background:#fff}
+
+/* tech (dark) */
+.dark{background:var(--dark);color:#fff}
+.dark .sec-no{border-color:#fff;color:rgba(255,255,255,.5)}
+.dark h2 small,.dark .sec-intro{color:rgba(255,255,255,.62)}
+.tools{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:56px}
+.tool{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:22px 18px;background:rgba(255,255,255,.03);transition:.3s}
+.tool:hover{border-color:var(--orange);background:rgba(255,91,31,.06)}
+.tool b{display:block;font-family:var(--latin);font-size:18px;margin-bottom:4px}
+.tool span{font-size:13px;color:rgba(255,255,255,.55)}
+.lod{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:40px;background:linear-gradient(135deg,rgba(255,255,255,.04),transparent)}
+.lod h3{font-size:28px;font-weight:900;margin-bottom:10px}
+.lod-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:26px 0 22px}
+.lod-tabs button{font-family:var(--mono);font-size:12.5px;padding:10px 2px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap}
+.lod-tabs button small{font-family:var(--sans);font-size:12px;color:rgba(255,255,255,.55)}
+.lod-tabs button:hover{border-color:#fff}
+.lod-tabs button.done{border-color:rgba(255,91,31,.55);background:rgba(255,91,31,.1)}
+.lod-tabs button.on{background:var(--orange);border-color:var(--orange)}
+.lod-tabs button.on small{color:#fff}
+.lod-desc{min-height:250px}
+.lod-desc b{font-size:19px;display:block;margin-bottom:6px}
+.lod-desc p{color:rgba(255,255,255,.66);font-size:15.5px}
+.lod-facts{margin-top:16px;border-top:1px solid rgba(255,255,255,.12)}
+.lod-facts div{display:grid;grid-template-columns:92px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.lod-facts dt{font-size:13px;color:rgba(255,255,255,.5);padding-top:1px}
+.lod-facts dd{font-size:14.5px;color:rgba(255,255,255,.9)}
+.lod-vis{background:#0A1117;border:1px solid rgba(255,255,255,.08);border-radius:16px;display:grid;place-items:center;min-height:300px;position:relative}
+.lod-vis svg{width:94%;height:auto;margin-top:22px}
+.lod-vis .mono{position:absolute;top:14px;left:16px;color:rgba(255,255,255,.4);font-size:10.5px}
+.lod-vis .g{transition:opacity .5s}
+
+/* value */
+.val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.val{background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px;position:relative;overflow:hidden;transition:.3s}
+.val:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(16,28,38,.35)}
+.val .k{font-family:var(--latin);font-size:56px;font-weight:700;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.val .k sup{font-size:22px;color:var(--orange);vertical-align:top;margin-left:4px}
+.val h3{font-size:20px;margin:18px 0 8px}
+.val p{font-size:15px;color:var(--ink-2)}
+.val.feature{grid-row:span 2;background:var(--orange);color:#fff;border-color:var(--orange);display:flex;flex-direction:column;justify-content:space-between}
+.val.feature p{color:rgba(255,255,255,.88);font-size:16.5px}
+.val.feature h3{font-size:30px;font-weight:900;line-height:1.3}
+.val.feature .mono{color:rgba(255,255,255,.75)}
+.compare{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}
+.compare>div{padding:30px 34px}
+.compare>div:first-child{background:var(--paper-2)}
+.compare h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;margin-bottom:14px;color:var(--muted)}
+.compare>div:last-child h4{color:var(--orange)}
+.compare li{list-style:none;padding:9px 0;border-bottom:1px dashed var(--line);font-size:15px;display:flex;gap:10px}
+.compare li:last-child{border:0}
+.compare>div:first-child li::before{content:"✕";color:var(--muted)}
+.compare>div:last-child li::before{content:"✓";color:var(--green);font-weight:700}
+
+/* contact */
+.contact{background:var(--ink);color:#fff;border-radius:28px;padding:70px;display:grid;grid-template-columns:1fr 1fr;gap:60px;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(90deg,#000,transparent 70%);-webkit-mask-image:linear-gradient(90deg,#000,transparent 70%)}
+.contact>*{position:relative}
+.contact h2{color:#fff}
+.contact .sec-intro{color:rgba(255,255,255,.65)}
+.c-info{margin-top:40px;display:flex;flex-direction:column;gap:2px}
+.c-info div{display:grid;grid-template-columns:110px 1fr;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:15.5px}
+.c-info span{color:rgba(255,255,255,.5);font-size:13.5px}
+.mail{border-bottom:1px solid currentColor;word-break:break-all;transition:color .2s}
+.mail:hover{color:var(--orange)}
+.c-info .taxid{font-family:var(--mono);letter-spacing:.12em;color:var(--orange);font-size:17px}
+form{background:#fff;color:var(--ink);border-radius:20px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-self:start}
+form .full{grid-column:1/-1}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:15px;background:var(--paper);color:var(--ink);transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:#fff}
+textarea{min-height:110px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{margin:0;font-weight:500;font-size:13.5px;cursor:pointer}
+.chips input{display:none}
+.chips span{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:999px;transition:.2s}
+.chips input:checked+span{background:var(--ink);color:#fff;border-color:var(--ink)}
+form .btn{justify-content:center;width:100%}
+.form-ok{grid-column:1/-1;display:none;padding:14px;border-radius:10px;background:#E7F6F1;color:#0B6B53;font-size:14.5px}
+
+footer{padding:50px 0 40px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:36px}
+.foot p{font-size:13.5px;color:var(--muted)}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.foot-links a:hover{color:var(--orange)}
+.giant{font-family:var(--latin);font-weight:700;font-size:clamp(70px,15vw,210px);line-height:.85;letter-spacing:-.04em;color:var(--ink);margin-top:40px;white-space:nowrap;overflow:hidden}
+.giant span{color:var(--orange)}
+
+.more-btn,.pj-more,.swipe-hint{display:none}
+/* projects */
+.pj-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+.pj-stats{display:flex;gap:40px;flex-wrap:wrap}
+.pj-stats div{font-size:13px;color:var(--muted)}
+.pj-stats b{display:block;font-family:var(--latin);font-size:40px;line-height:1.1;color:var(--ink)}
+.pj-filter{display:flex;gap:8px;flex-wrap:wrap}
+.pj-filter button{padding:9px 18px;border:1px solid var(--line);background:#fff;border-radius:999px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:.2s}
+.pj-filter button span{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--muted);margin-left:6px}
+.pj-filter button:hover{border-color:var(--ink)}
+.pj-filter button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.pj-filter button.on span{color:var(--orange)}
+.pj-table{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.pj-row{display:grid;grid-template-columns:150px 1.5fr 1fr 170px;gap:20px;align-items:center;padding:17px 28px;border-bottom:1px solid var(--line);transition:background .2s}
+#pjBody .pj-row:last-child{border-bottom:0}
+#pjBody .pj-row:hover{background:var(--paper)}
+.pj-head{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);background:var(--paper);padding-top:12px;padding-bottom:12px}
+.pj-yr{font-family:var(--mono);font-size:13px;color:var(--ink-2);white-space:nowrap}
+.pj-yr i,.pj-note i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--green);margin-right:10px;vertical-align:-1px}
+.pj-yr i.done,.pj-note i.done{background:var(--line)}
+.pj-name{font-size:16.5px;font-weight:700;line-height:1.45}
+.pj-sys{font-size:14.5px;color:var(--ink-2)}
+.pj-co{font-size:14.5px;color:var(--ink-2);text-align:right}
+.pj-note{margin-top:14px;font-size:13px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}
+@media (max-width:820px){
+  .pj-head{display:none}
+  .pj-row{grid-template-columns:1fr auto;gap:4px 16px;padding:16px 20px}
+  .pj-yr,.pj-name{grid-column:1/-1}
+  .pj-stats{gap:26px}.pj-stats b{font-size:32px}
+}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px){
+  .menu{position:fixed;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--paper);padding:16px 24px 24px;border-bottom:1px solid var(--line);gap:2px;transform:translateY(-120%);transition:transform .35s;z-index:-1}
+  .menu.open{transform:none}
+  .menu a{padding:13px 14px;font-size:16px;border-radius:10px}
+  .menu .cta{margin:8px 0 0;text-align:center}
+  .burger{display:flex}
+  .hero-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .tools{grid-template-columns:repeat(3,1fr)}
+  .flow{grid-template-columns:repeat(3,1fr);row-gap:44px}
+  .flow::before{display:none}
+}
+@media (max-width:820px){
+  .wrap{padding:0 20px}
+  section.block{padding:90px 0}
+  .sec-head{grid-template-columns:1fr;gap:18px;margin-bottom:44px}
+  .sec-no{max-width:160px}
+  .about-grid,.ind-wrap,.lod,.contact,.compare{grid-template-columns:1fr}
+  .pillars,.val-grid{grid-template-columns:1fr}
+  .val.feature{grid-row:auto}
+  .contact{padding:40px 24px}
+  form{grid-template-columns:1fr;padding:24px}
+  .ind-panel{padding:30px}
+  .ind-points{grid-template-columns:1fr}
+  #stage{height:380px}
+  .flow{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .svc-grid,.tools{grid-template-columns:1fr 1fr}
+  .svc{min-height:0;padding:24px 18px}
+  .flow{grid-template-columns:1fr}
+  .hero-meta{gap:22px}
+  .lod{padding:24px}
+}
+
+/* ---------- PHONE ---------- */
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .nav{height:60px}
+  html{scroll-padding-top:64px}
+  .menu{top:60px}
+  .brand-logo{height:38px}
+  .brand-name b{font-size:18px}
+  .brand-name span{font-size:11px}
+  .burger{width:38px;height:38px;order:-1}
+  .nav{justify-content:flex-start;gap:12px}
+
+  /* section rhythm */
+  section.block{padding:52px 0}
+  #services{padding-top:28px!important}
+  #contact{padding-top:8px!important}
+  .sec-head{gap:8px;margin-bottom:24px}
+  .sec-no{padding-top:8px;font-size:11px}
+  h2{font-size:26px;line-height:1.25}
+  h2 small{font-size:13px;margin-top:4px}
+  .sec-intro{font-size:14.5px;margin-top:8px;line-height:1.7}
+
+  /* hero */
+  .hero{min-height:0;padding:84px 0 32px}
+  .hero-grid{gap:22px}
+  .eyebrow{font-size:10.5px;padding:4px 10px 4px 5px}
+  h1{font-size:36px;margin:16px 0 12px}
+  .lead{font-size:15px;line-height:1.7}
+  .hero-cta{margin-top:20px;gap:8px}
+  .btn{padding:12px 18px;font-size:14px}
+  .hero-meta{margin-top:22px;padding-top:16px;gap:8px 20px}
+  .hero-meta div{font-size:11.5px}
+  .hero-meta b{font-size:17px}
+  #stage{height:300px}
+  .layers{left:10px;bottom:10px;gap:4px}
+  .layer{padding:5px 9px;font-size:12px;gap:6px}
+  .viewer-hint{display:none}
+  .marquee{padding:10px 0}
+  .marquee span{font-size:15px;gap:32px}
+  .marquee-track{gap:32px}
+
+  /* about */
+  .card{padding:20px;border-radius:16px}
+  .about-grid{gap:14px}
+  .about-main p{font-size:14.5px;line-height:1.75;margin-bottom:10px}
+  .about-main:not(.open) p:not(:first-child){display:none}
+  .about-main.open .more-btn{display:none}
+  .more-btn{display:inline-block;background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;color:var(--orange);cursor:pointer}
+  .idcard{min-height:0;gap:10px}
+  .idrow{padding:9px 0;gap:12px}
+  .idrow span{font-size:12px;flex:none}
+  .idrow b{font-size:14px}
+  .idrow .taxid{font-size:18px}
+  .pillars{gap:0;margin-top:14px}
+  .pillar{padding:14px 0}
+  .pillar h3{font-size:17px;margin:4px 0 4px}
+  .pillar p{font-size:13.5px}
+
+  /* services */
+  .svc{padding:16px 14px;min-height:0}
+  .svc-ic,.svc .en{display:none}
+  .svc h3{font-size:15.5px;margin:8px 0 6px}
+  .svc p{font-size:12.8px;line-height:1.65}
+
+  /* industries */
+  .ind-wrap{gap:12px}
+  .ind-list{flex-direction:row;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .ind-list::-webkit-scrollbar{display:none}
+  .ind-list li{flex:none}
+  .ind-list button{padding:10px 14px;font-size:14px;border-radius:999px;white-space:nowrap}
+  .ind-list button span{display:none}
+  .ind-panel{padding:20px;min-height:0;border-radius:16px}
+  .ind-panel .big{font-size:96px;right:14px;bottom:-14px}
+  .ind-panel h3{font-size:21px;margin:6px 0 8px}
+  .ind-panel>p{font-size:14px}
+  .ind-points{gap:6px;margin-top:14px}
+  .ind-points div{padding:9px 12px;font-size:13.5px}
+  .ind-points div::before{margin-top:7px;width:7px;height:7px}
+
+  /* projects */
+  .pj-top{gap:14px;margin-bottom:14px}
+  .pj-stats{gap:18px;width:100%}
+  .pj-stats div{font-size:11.5px}
+  .pj-stats b{font-size:24px}
+  .pj-filter{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none}
+  .pj-filter::-webkit-scrollbar{display:none}
+  .pj-filter button{padding:7px 13px;font-size:13px;white-space:nowrap}
+  .pj-table{border-radius:14px}
+  .pj-row{grid-template-columns:1fr auto;gap:2px 12px;padding:11px 14px}
+  .pj-name{grid-column:1;grid-row:1;font-size:14.5px;line-height:1.4}
+  .pj-yr{grid-column:2;grid-row:1;font-size:11px;text-align:right;align-self:center}
+  .pj-yr i,.pj-note i{width:9px;height:9px;margin-right:6px}
+  .pj-sys{grid-column:1;grid-row:2;font-size:12.5px}
+  .pj-co{grid-column:2;grid-row:2;font-size:12.5px}
+  .pj-table.collapsed #pjBody .pj-row:nth-child(n+9){display:none}
+  .pj-more{display:block;width:100%;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer}
+  .pj-more[hidden]{display:none}
+  .pj-note{margin-top:10px;font-size:12px}
+
+  /* swipe rows: workflow + value */
+  .flow,.val-grid{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+  .flow::-webkit-scrollbar,.val-grid::-webkit-scrollbar{display:none}
+  .flow>*,.val-grid>*{flex:0 0 78%;scroll-snap-align:start}
+  .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+  .step .dot{width:40px;height:40px;font-size:13px}
+  .step h3{font-size:17px;margin:12px 0 6px}
+  .step p{font-size:13.5px}
+  .step .out{margin-top:10px}
+  .swipe-hint{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+  .val{padding:20px;border-radius:16px}
+  .val .k{font-size:38px}
+  .val .k sup{font-size:16px}
+  .val h3{font-size:17px;margin:12px 0 6px}
+  .val p{font-size:13.5px}
+  .val.feature h3{font-size:21px}
+  .val.feature p{font-size:14px}
+  .compare{margin-top:14px;border-radius:16px}
+  .compare>div{padding:16px 18px}
+  .compare h4{margin-bottom:6px}
+  .compare li{font-size:13.5px;padding:6px 0}
+
+  /* technology */
+  .tools{grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:20px}
+  .tool{padding:12px 10px;border-radius:12px}
+  .tool b{font-size:13.5px;margin-bottom:2px}
+  .tool span{font-size:11px;line-height:1.4;display:block}
+  .lod{padding:18px;gap:16px;border-radius:16px}
+  .lod h3{font-size:21px}
+  .lod>div>p{font-size:13.5px}
+  .lod-tabs{margin:14px 0 12px;gap:4px}
+  .lod-tabs button{font-size:10.5px;padding:7px 0;border-radius:10px}
+  .lod-tabs button small{font-size:11px}
+  .lod-desc{min-height:0}
+  .lod-desc b{font-size:16px;margin-bottom:2px}
+  .lod-desc p{font-size:13.5px}
+  .lod-facts{margin-top:10px}
+  .lod-facts div{grid-template-columns:70px 1fr;gap:10px;padding:7px 0}
+  .lod-facts dt{font-size:12px}
+  .lod-facts dd{font-size:13px}
+  .lod-vis{min-height:0;border-radius:12px}
+  .lod-vis svg{width:100%;margin-top:18px}
+
+  /* contact */
+  .contact{padding:26px 18px;gap:20px;border-radius:20px}
+  .contact .sec-no{margin-bottom:14px!important}
+  .c-info{margin-top:16px}
+  .c-info div{grid-template-columns:76px 1fr;padding:9px 0;font-size:14px}
+  .c-info span{font-size:12px}
+  form{padding:18px;gap:10px;border-radius:16px}
+  label{font-size:12.5px;margin-bottom:4px}
+  input,select,textarea{padding:10px 12px;font-size:16px}
+  textarea{min-height:84px}
+  .chips span{padding:5px 10px;font-size:12.5px}
+
+  /* footer */
+  footer{padding:30px 0 24px}
+  .foot{gap:16px;padding-top:22px}
+  .foot img{height:44px!important}
+  .foot-links{gap:6px 14px;font-size:13px}
+  .giant{font-size:64px;margin-top:22px}
+}
+
+/* ---------- PHONE: one screen per section ---------- */
+@media (max-width:640px){
+  section.block{padding:40px 0}
+  #services,#contact{padding-top:40px!important}
+  .sec-no,h2 small{display:none!important}
+  .sec-head{margin-bottom:16px}
+  h2{font-size:24px}
+  .sec-intro{font-size:13.5px;margin-top:6px;line-height:1.65}
+
+  /* hero */
+  .hero{padding:76px 0 24px}
+  .hero-grid{gap:16px}
+  h1{font-size:32px;margin:12px 0 10px}
+  .lead{font-size:14px}
+  .hero-cta{margin-top:16px}
+  .btn{padding:10px 16px;font-size:13.5px}
+  .hero-meta{flex-wrap:nowrap;justify-content:space-between;margin-top:16px;padding-top:12px;gap:8px}
+  .hero-meta div{font-size:10.5px}
+  .hero-meta b{font-size:14px}
+  #stage{height:250px}
+  .viewer-bar{padding:8px 12px;font-size:10px}
+
+  /* about */
+  .about-grid{gap:10px}
+  .card{padding:16px}
+  .about-main p{font-size:13.5px;margin-bottom:6px}
+  .idcard>.mono{display:none}
+  .idrow{padding:6px 0}
+  .idrow span{font-size:11.5px}
+  .idrow b{font-size:13px}
+  .idrow .taxid{font-size:15px}
+  .idrow .mail{font-size:13px!important}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+  .pillar{padding:10px 0 0;border-top-width:2px}
+  .pillar .mono{font-size:9.5px}
+  .pillar h3{font-size:12.5px;line-height:1.4;margin:2px 0 0;letter-spacing:-.02em}
+  .pillar p{display:none}
+
+  /* services */
+  .svc{padding:12px}
+  .svc .num{font-size:9.5px}
+  .svc h3{font-size:14.5px;margin:4px 0 4px}
+  .svc p{font-size:12px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* industries */
+  .ind-panel{padding:16px}
+  .ind-panel h3{font-size:19px}
+
+  /* projects */
+  #projects .sec-intro{display:none}
+  .pj-stats div{font-size:10.5px}
+  .pj-stats b{font-size:20px}
+  .pj-top{gap:10px;margin-bottom:10px}
+  .pj-row{padding:9px 12px}
+  .pj-name{font-size:13.5px}
+  .pj-sys,.pj-co{font-size:12px}
+  .pj-more{margin-top:8px;padding:9px;font-size:13px}
+  .pj-note{margin-top:6px}
+
+  /* technology */
+  .tools{gap:5px;margin-bottom:12px}
+  .tool{padding:9px 8px}
+  .tool b{font-size:12.5px}
+  .tool span{font-size:10px}
+  .lod{padding:14px;gap:10px}
+  .lod .mono:first-child{display:none}
+  .lod h3{font-size:18px;margin:0 0 4px!important}
+  .lod>div>p{display:none}
+  .lod-tabs{margin:8px 0}
+  .lod-desc>div>p{display:none}
+  .lod-desc b{font-size:15px}
+  .lod-facts{margin-top:4px}
+  .lod-facts div{padding:5px 0;grid-template-columns:64px 1fr}
+  .lod-facts dd{font-size:12.5px}
+  .lod-vis svg{margin-top:14px}
+
+  /* value */
+  .val{padding:16px}
+  .val .k{font-size:32px}
+  .compare{grid-template-columns:1fr 1fr;margin-top:10px}
+  .compare>div{padding:12px}
+  .compare h4{font-size:9.5px;letter-spacing:.04em}
+  .compare li{font-size:12px;padding:5px 0;gap:5px;line-height:1.45}
+
+  /* contact */
+  .contact{padding:20px 16px;gap:14px}
+  .contact .sec-intro{display:none}
+  .c-info{margin-top:10px}
+  .c-info div{padding:6px 0;font-size:13px;grid-template-columns:64px 1fr}
+  .c-info div:nth-child(1),.c-info div:nth-child(2),.c-info div:nth-child(4){display:none}
+  form{grid-template-columns:1fr 1fr;padding:14px;gap:8px}
+  label{font-size:11.5px;margin-bottom:3px}
+  input,select,textarea{padding:8px 10px}
+  textarea{min-height:60px}
+  .chips{gap:4px}
+  .chips span{padding:4px 8px;font-size:11.5px}
+  form .btn{padding:11px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#hero" class="brand" aria-label="SJTECH 升捷整合科技">
+      <img src="sj-logo.png" alt="" class="brand-logo">
+      <div class="brand-name"><b>SJTECH</b><span>升捷整合科技</span></div>
+    </a>
+    <ul class="menu" id="menu">
+      <li><a href="#about">關於升捷</a></li>
+      <li><a href="#services">核心服務</a></li>
+      <li><a href="#industries">產業專業</a></li>
+      <li><a href="#projects">工程實績</a></li>
+      <li><a href="#workflow">工作流程</a></li>
+      <li><a href="#tech">數位技術</a></li>
+      <li><a href="#value">合作價值</a></li>
+      <li><a href="#contact" class="cta">聯絡我們 ↗</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="開啟選單"><i></i></button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><em>REVIT</em> 3D MODELING · BIM INTEGRATION</span>
+      <h1>把圖紙，<br>蓋成<span class="hl">看得見</span>的<br>工程。</h1>
+      <p class="lead">升捷整合科技專注於 <strong>Revit 3D 建模</strong>與 BIM 整合服務。從建築、結構到機電管線，我們把 2D 圖面轉化為精準、可協作的 3D 模型，讓問題在動工前就被看見、被解決。</p>
+      <div class="hero-cta">
+        <a href="#services" class="btn btn-dark">探索服務
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8"/></svg></a>
+        <a href="#contact" class="btn btn-ghost">索取報價</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>Revit</b>核心建模平台</div>
+        <div><b>LOD 100–500</b>精度全階段</div>
+        <div><b>ARC · STR · MEP</b>跨專業整合</div>
+      </div>
+    </div>
+
+    <div class="viewer" aria-label="互動式 3D 模型示意">
+      <div class="viewer-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span>SJTECH_FAB_MODEL.rvt — 3D VIEW</span>
+        <span id="fps">ISO</span>
+      </div>
+      <div id="stage"></div>
+      <div class="layers" id="layers">
+        <button class="layer" data-layer="arch"><i style="background:#C9CCD1"></i>建築</button>
+        <button class="layer" data-layer="str"><i style="background:#101C26"></i>結構</button>
+        <button class="layer" data-layer="mep"><i style="background:#FF5B1F"></i>機電</button>
+        <button class="layer" data-layer="pipe"><i style="background:#2F62F5"></i>管路</button>
+      </div>
+      <div class="viewer-hint">DRAG TO ROTATE</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Revit Modeling</span><span>BIM 整合</span><span>MEP Coordination</span><span>碰撞檢討</span><span>Shop Drawing</span><span>2D 轉 3D</span><span>As-Built Model</span><span>族群元件</span>
+    <span>Revit Modeling</span><span>BIM 整合</span><span>MEP Coordination</span><span>碰撞檢討</span><span>Shop Drawing</span><span>2D 轉 3D</span><span>As-Built Model</span><span>族群元件</span>
+  </div>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>01</b> / ABOUT</div>
+      <div>
+        <h2>關於升捷<small>About SJTECH</small></h2>
+        <p class="sec-intro">我們是一支以 Revit 為核心的 3D 建模團隊，相信好的模型不只是漂亮的畫面，而是工程團隊共同的「單一真實來源」。</p>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <div class="card about-main rv">
+        <p><strong>升捷整合科技有限公司（SJTECH）</strong>專注於 Revit 3D 建模與 BIM 資訊整合，長期服務半導體、高科技廠房與各類建築工程專案。</p>
+        <p>我們的工作，是把分散在各專業、各版次的 2D 圖面，整合為一個資訊完整、尺寸精準的 3D 模型。透過模型，業主能更快理解設計，設計與施工單位能提早發現衝突，現場能依據正確的施工圖施作。</p>
+        <p>從前期的概念量體、施工階段的管線整合，到完工後的竣工模型與營運維護資料，升捷都能提供對應精度的建模服務，成為您工程團隊中可靠的數位夥伴。</p>
+        <button class="more-btn" type="button" id="aboutMore">閱讀更多 ↓</button>
+      </div>
+      <div class="card idcard rv">
+        <div class="mono">COMPANY PROFILE</div>
+        <div>
+          <div class="idrow"><span>公司名稱</span><b>升捷整合科技有限公司</b></div>
+          <div class="idrow"><span>英文簡稱</span><b>SJTECH</b></div>
+          <div class="idrow"><span>統一編號</span><b class="taxid">83669627</b></div>
+          <div class="idrow"><span>電子郵件</span><b><a href="mailto:sjtech@bimotion.com.tw" class="mail" style="font-size:15px">sjtech@bimotion.com.tw</a></b></div>
+          <div class="idrow"><span>專業領域</span><b>Revit 3D 建模・BIM 整合</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar rv"><span class="mono">MISSION</span><h3>讓工程看得更清楚</h3><p>以 3D 模型取代想像，讓每個決策都建立在看得見的資訊上。</p></div>
+      <div class="pillar rv"><span class="mono">APPROACH</span><h3>精準，而且準時</h3><p>標準化的建模規範與檢核流程，確保每一版模型都可被信任。</p></div>
+      <div class="pillar rv"><span class="mono">PARTNERSHIP</span><h3>成為團隊的延伸</h3><p>彈性配合專案節奏，與設計、營造、機電團隊無縫協作。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="block" id="services" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>02</b> / SERVICES</div>
+      <div>
+        <h2>核心服務<small>Core Services</small></h2>
+        <p class="sec-intro">以 Revit 為核心，涵蓋建築結構、機電、管路三大專業，從建模、整合到出圖，一站完成。</p>
+      </div>
+    </div>
+
+    <div class="svc-grid rv">
+      <div class="svc"><span class="num">S—01</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12M3 21h18M8 21v-9h8v9M8 16h8M12 12v9"/></svg></div>
+        <h3>Revit 建築結構建模</h3><p>牆、樓板、柱、梁、基礎、鋼構與樓板開口，依建築與結構圖精確建置，作為各專業整合基礎。</p><span class="en">Architectural &amp; Structural Modeling</span></div>
+      <div class="svc"><span class="num">S—02</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M13 3 5 13h6l-1 8 8-10h-6z"/></svg></div>
+        <h3>MEP 機電建模</h3><p>空調風管、給排水、消防與電氣橋架，含尺寸、坡度與系統分類，完整呈現機電系統配置。</p><span class="en">MEP Modeling</span></div>
+      <div class="svc"><span class="num">S—03</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h8a3 3 0 0 1 3 3v4a3 3 0 0 0 3 3h4M3 12h5M14 3v4"/><circle cx="14" cy="7" r="1.5"/></svg></div>
+        <h3>製程管路建模</h3><p>特殊氣體、大宗氣體、PCW 與化學品等製程管路，含管徑、閥件、管架與系統分類。</p><span class="en">Process Piping Modeling</span></div>
+      <div class="svc"><span class="num">S—04</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></div>
+        <h3>碰撞檢討與管線整合</h3><p>跨專業衝突檢查、產出碰撞報告並協助調整排列，減少現場拆改與工期延誤。</p><span class="en">Clash Detection</span></div>
+      <div class="svc"><span class="num">S—05</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h5"/></svg></div>
+        <h3>施工圖與出圖服務</h3><p>由模型直接產出平面、剖面、詳圖與綜合管線圖，圖模一致、修改同步。</p><span class="en">Shop Drawings</span></div>
+      <div class="svc"><span class="num">S—06</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17 9 14v-9L3 8zM9 5l6 3v9l-6-3M15 8l6-3v9l-6 3"/></svg></div>
+        <h3>2D 圖面轉 3D 翻模</h3><p>依 CAD 或 PDF 圖面翻製 Revit 模型，協助既有專案快速導入 BIM。</p><span class="en">CAD to BIM</span></div>
+      <div class="svc"><span class="num">S—07</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg></div>
+        <h3>族群元件客製</h3><p>依設備規格建立參數化族群元件，含尺寸、接口與屬性資料，可重複使用。</p><span class="en">Revit Family</span></div>
+      <div class="svc"><span class="num">S—08</span>
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <h3>竣工模型與數量計算</h3><p>依現況更新 As-Built 模型，並由模型匯出材料數量表，支援估算與維運管理。</p><span class="en">As-Built & QTO</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INDUSTRIES ================= -->
+<section class="block" id="industries" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>03</b> / INDUSTRIES</div>
+      <div>
+        <h2>產業專業<small>Industry Expertise</small></h2>
+        <p class="sec-intro">不同產業有不同的工程語言。我們熟悉各類型專案的建模重點，交付真正派得上用場的模型。</p>
+      </div>
+    </div>
+
+    <div class="ind-wrap rv">
+      <ul class="ind-list" id="indList"></ul>
+      <div class="ind-panel" id="indPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>04</b> / PROJECTS</div>
+      <div>
+        <h2>工程實績<small>Track Record 2019 – 2025</small></h2>
+        <p class="sec-intro">從半導體廠的特殊氣體與大宗氣體系統，到廠辦、公共建築的機電全系統整合，升捷已成為多家知名公司的專業協力廠商。</p>
+      </div>
+    </div>
+
+    <div class="pj-top rv">
+      <div class="pj-stats">
+        <div><b id="pjCount">21</b>項專案實績</div>
+        <div><b>2019–2025</b>歷年累積</div>
+        <div><b id="pjLive">0</b>項持續進行中</div>
+      </div>
+      <div class="pj-filter" id="pjFilter"></div>
+    </div>
+    <div class="pj-table rv">
+      <div class="pj-row pj-head"><div>期間</div><div>專案名稱</div><div>系統範圍</div><div style="text-align:right">合作廠商</div></div>
+      <div id="pjBody"></div>
+    </div>
+    <button class="pj-more" type="button" id="pjMore"></button>
+    <div class="pj-note rv"><span><i></i>進行中</span><span><i class="done"></i>已完成</span></div>
+  </div>
+</section>
+
+<!-- ================= WORKFLOW ================= -->
+<section class="block" id="workflow">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>05</b> / WORKFLOW</div>
+      <div>
+        <h2>工作流程<small>How We Work</small></h2>
+        <p class="sec-intro">透明、可追蹤的六步驟流程，讓您隨時掌握模型進度與品質。</p>
+      </div>
+    </div>
+
+    <span class="swipe-hint">← 左右滑動看全部步驟 →</span>
+    <div class="flow">
+      <div class="step rv"><div class="dot">01</div><h3>需求訪談</h3><p>確認專案範圍、建模精度（LOD）、交付格式與時程。</p><span class="out">→ 建模計畫書</span></div>
+      <div class="step rv"><div class="dot">02</div><h3>圖資整理</h3><p>彙整各專業 CAD / PDF 圖面，建立樣板、座標與樓層基準。</p><span class="out">→ 專案樣板</span></div>
+      <div class="step rv"><div class="dot">03</div><h3>Revit 建模</h3><p>依專業分工建置建築、結構與機電模型，遵循統一命名規範。</p><span class="out">→ RVT 模型</span></div>
+      <div class="step rv"><div class="dot">04</div><h3>整合檢討</h3><p>跨專業模型整合與碰撞檢查，標示衝突點並提出調整建議。</p><span class="out">→ 碰撞報告</span></div>
+      <div class="step rv"><div class="dot">05</div><h3>審查修正</h3><p>配合會議回饋修正模型，版次清楚記錄，變更可追溯。</p><span class="out">→ 修正紀錄</span></div>
+      <div class="step rv"><div class="dot">06</div><h3>出圖交付</h3><p>交付模型、施工圖與數量表，並提供後續維護與更新服務。</p><span class="out">→ 成果交付</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TECH ================= -->
+<section class="block dark" id="tech">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>06</b> / TECHNOLOGY</div>
+      <div>
+        <h2>數位技術<small>Digital Technology</small></h2>
+        <p class="sec-intro">以 Autodesk 生態系為基礎，搭配自動化工具與雲端協作，提升建模效率與資料品質。</p>
+      </div>
+    </div>
+
+    <div class="tools rv">
+      <div class="tool"><b>Revit</b><span>核心建模與出圖</span></div>
+      <div class="tool"><b>Navisworks</b><span>整合與碰撞檢討</span></div>
+      <div class="tool"><b>AutoCAD</b><span>圖資整理與轉換</span></div>
+      <div class="tool"><b>Dynamo</b><span>參數化與自動化</span></div>
+      <div class="tool"><b>Autodesk Forma</b><span>雲端資料管理</span></div>
+      <div class="tool"><b>Point Cloud</b><span>點雲竣工模型</span></div>
+    </div>
+
+    <div class="lod rv">
+      <div>
+        <span class="mono" style="color:var(--orange)">LEVEL OF DEVELOPMENT</span>
+        <h3 style="margin-top:12px">依需求選擇模型精度</h3>
+        <p style="color:rgba(255,255,255,.62)">LOD 代表模型「做到多細」。等級越高，內容越完整、越接近現場實況，建置時間也越長。以同一段製程管路為例，點選等級看看差別。</p>
+        <div class="lod-tabs" id="lodTabs">
+          <button data-l="0"><span>LOD 100</span><small>概念</small></button><button data-l="1"><span>LOD 200</span><small>初設</small></button><button data-l="2"><span>LOD 300</span><small>細設</small></button><button data-l="3"><span>LOD 400</span><small>施工</small></button><button data-l="4"><span>LOD 500</span><small>竣工</small></button>
+        </div>
+        <div class="lod-desc" id="lodDesc"></div>
+      </div>
+      <div class="lod-vis">
+        <span class="mono" id="lodLabel">LOD 300 / 細部設計</span>
+        <svg viewBox="0 0 440 300" fill="none" id="lodSvg" font-family="'Noto Sans TC',sans-serif" role="img" aria-label="同一段管路在不同 LOD 等級的模型內容示意">
+          <!-- context: slab + floor -->
+          <rect x="30" y="28" width="380" height="12" fill="#1B2731" stroke="#4E5B66"/>
+          <text x="408" y="21" text-anchor="end" font-size="9.5" fill="#6B7680">樓板</text>
+          <path d="M30 270H410" stroke="#4E5B66"/>
+
+          <!-- LOD 100 only: space envelope + equipment mass -->
+          <g class="g" data-min="0" data-max="0">
+            <rect x="50" y="68" width="302" height="76" rx="4" fill="rgba(255,255,255,.04)" stroke="#9AA6B0" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <text x="201" y="111" text-anchor="middle" font-size="14" fill="#C9D1D8">管線預留空間</text>
+            <path d="M335 144V205" stroke="#9AA6B0" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <rect x="285" y="205" width="100" height="65" fill="rgba(255,255,255,.04)" stroke="#9AA6B0" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <text x="335" y="242" text-anchor="middle" font-size="12" fill="#C9D1D8">設備（量體）</text>
+            <text x="50" y="196" font-size="11" fill="#FFB08A">只確認「放得下、放哪裡」</text>
+          </g>
+
+          <!-- LOD 200+: equipment -->
+          <g class="g" data-min="1" data-max="4">
+            <rect x="285" y="205" width="100" height="65" fill="#16212B" stroke="#9AA6B0" stroke-width="1.5"/>
+            <path d="M285 222H385" stroke="#9AA6B0" stroke-opacity=".5"/>
+            <text x="335" y="250" text-anchor="middle" font-size="12" fill="#C9D1D8">製程設備</text>
+          </g>
+
+          <!-- LOD 200 only: generic route -->
+          <g class="g" data-min="1" data-max="1">
+            <path d="M50 108H335V205" stroke="#7C8893" stroke-opacity=".6" stroke-width="26" stroke-linejoin="round"/>
+            <path d="M50 108H335V205" stroke="#C9D1D8" stroke-width="1.2" stroke-dasharray="7 5"/>
+            <text x="52" y="82" font-size="11" fill="#FFB08A">概略路徑・大約尺寸</text>
+            <text x="50" y="196" font-size="11" fill="#FFB08A">知道「有哪些系統、大概怎麼走」</text>
+          </g>
+
+          <!-- LOD 300+: exact pipes by system -->
+          <g class="g" data-min="2" data-max="4" stroke-linejoin="round">
+            <path d="M50 86H352V205" stroke="#2F62F5" stroke-width="9"/>
+            <path d="M50 108H332V205" stroke="#14A37F" stroke-width="7"/>
+            <path d="M50 127H314V205" stroke="#7A5AF0" stroke-width="5.5"/>
+            <path d="M64 40V81M60 40h8M60 81h8" stroke="#fff" stroke-opacity=".55"/>
+            <text x="71" y="64" font-size="10" fill="#FFB08A">高程定位</text>
+          </g>
+          <!-- LOD 300–400: system legend -->
+          <g class="g" data-min="2" data-max="3" font-size="11.5" fill="#C9D1D8">
+            <text x="44" y="176" font-size="10" fill="#6B7680">依系統分類・管徑正確</text>
+            <rect x="44" y="188" width="24" height="7" rx="3.5" fill="#2F62F5"/><text x="78" y="196">Bulk Gas　150A</text>
+            <rect x="44" y="210" width="24" height="6" rx="3" fill="#14A37F"/><text x="78" y="218">Special Gas　50A</text>
+            <rect x="44" y="232" width="24" height="5" rx="2.5" fill="#7A5AF0"/><text x="78" y="240">PCW　80A</text>
+          </g>
+
+          <!-- LOD 400+: hangers, flanges, valves -->
+          <g class="g" data-min="3" data-max="4" stroke="#fff" stroke-width="1.6">
+            <path d="M120 40V136M112 136h16M230 40V136M222 136h16"/>
+            <path d="M175 78V94M175 101V115M175 121V133M280 78V94M280 101V115M280 121V133" stroke-width="3"/>
+            <path d="M344 157 360 173H344L360 157Z" fill="#0A1117"/><path d="M352 165h14M366 160v10"/>
+            <path d="M325 176 339 190H325L339 176Z" fill="#0A1117"/>
+            <g stroke="none" font-size="10" fill="#FFB08A">
+              <text x="126" y="58">吊架</text><text x="181" y="72">法蘭</text><text x="372" y="185">閥件</text>
+            </g>
+          </g>
+
+          <!-- LOD 500: tags + asset data -->
+          <g class="g" data-min="4" data-max="4" font-size="9.5">
+            <rect x="132" y="79" width="40" height="14" rx="3" fill="#0A1117" stroke="#2F62F5"/><text x="152" y="89.5" text-anchor="middle" fill="#fff">BG-150A</text>
+            <rect x="188" y="101" width="38" height="14" rx="3" fill="#0A1117" stroke="#14A37F"/><text x="207" y="111.5" text-anchor="middle" fill="#fff">SG-50A</text>
+            <rect x="132" y="120.5" width="44" height="13" rx="3" fill="#0A1117" stroke="#7A5AF0"/><text x="154" y="130.5" text-anchor="middle" fill="#fff">PCW-80A</text>
+            <text x="405" y="62" text-anchor="end" font-size="11" fill="#2BC79E">✓ AS-BUILT　與現場一致</text>
+            <path d="M262 196 344 167" stroke="#FF5B1F" stroke-dasharray="3 3"/>
+            <rect x="40" y="166" width="222" height="94" rx="8" fill="#101A22" stroke="#FF5B1F"/>
+            <text x="54" y="185" font-size="9.5" fill="#FFB08A">元件屬性資料（示意）</text>
+            <text x="54" y="204" font-size="12.5" font-weight="700" fill="#fff">閥件 V-1023</text>
+            <text x="54" y="222" font-size="10.5" fill="#9AA6B0">規格</text><text x="88" y="222" font-size="10.5" fill="#E6EAED">球閥 150A・SUS316L</text>
+            <text x="54" y="237" font-size="10.5" fill="#9AA6B0">系統</text><text x="88" y="237" font-size="10.5" fill="#E6EAED">Bulk Gas</text>
+            <text x="54" y="252" font-size="10.5" fill="#9AA6B0">安裝</text><text x="88" y="252" font-size="10.5" fill="#E6EAED">2025-03・檢驗合格</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VALUE ================= -->
+<section class="block" id="value">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no"><b>07</b> / VALUE</div>
+      <div>
+        <h2>合作價值<small>Why SJTECH</small></h2>
+        <p class="sec-intro">一個正確的模型，能在專案的每一個階段替您省下時間、成本與溝通的力氣。</p>
+      </div>
+    </div>
+
+    <span class="swipe-hint">← 左右滑動看更多 →</span>
+    <div class="val-grid">
+      <div class="val feature rv">
+        <span class="mono">THE SJTECH DIFFERENCE</span>
+        <div>
+          <h3>問題在電腦裡解決，<br>不在工地裡解決。</h3>
+          <p style="margin-top:14px">每一個在模型中發現的衝突，都是現場少一次拆改、少一次停工。這正是 BIM 最實在的價值。</p>
+        </div>
+      </div>
+      <div class="val rv"><div class="k">3D<sup>●</sup></div><h3>溝通更直覺</h3><p>業主、設計、施工團隊看著同一個模型討論，減少圖面判讀落差。</p></div>
+      <div class="val rv"><div class="k">−<sup>拆改</sup></div><h3>降低施工風險</h3><p>事前碰撞檢討，減少現場變更、材料浪費與工期延誤。</p></div>
+      <div class="val rv"><div class="k">1:1<sup>●</sup></div><h3>圖模一致</h3><p>施工圖由模型產出，修改一次即同步更新，避免版本錯亂。</p></div>
+      <div class="val rv"><div class="k">∞<sup>●</sup></div><h3>資料可延續</h3><p>竣工模型保留設備與管線資訊，作為日後維運與擴建的基礎。</p></div>
+    </div>
+
+    <div class="compare rv">
+      <div><h4>傳統 2D 作業</h4><ul>
+        <li>各專業圖面分開，衝突到現場才發現</li>
+        <li>空間關係需靠經驗想像</li>
+        <li>圖面修改需逐張比對更新</li>
+        <li>竣工資料分散、難以查找</li></ul></div>
+      <div><h4>SJTECH × REVIT BIM</h4><ul>
+        <li>跨專業整合，動工前完成碰撞檢討</li>
+        <li>3D 視覺化，空間一目了然</li>
+        <li>圖模連動，修改自動同步</li>
+        <li>完整模型資料，延續到維運階段</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="block" id="contact" style="padding-top:20px">
+  <div class="wrap">
+    <div class="contact rv">
+      <div>
+        <div class="sec-no" style="border-color:#fff;color:rgba(255,255,255,.5);max-width:200px;margin-bottom:28px"><b>08</b> / CONTACT</div>
+        <h2>聯絡我們<small style="color:rgba(255,255,255,.55)">Let's build it in 3D first.</small></h2>
+        <p class="sec-intro">有新專案或想了解 Revit 建模服務？留下您的需求，我們將盡快與您聯繫並提供建議與報價。</p>
+        <div class="c-info">
+          <div><span>公司名稱</span><b>升捷整合科技有限公司</b></div>
+          <div><span>統一編號</span><b class="taxid">83669627</b></div>
+          <div><span>電子郵件</span><b><a href="mailto:sjtech@bimotion.com.tw" class="mail">sjtech@bimotion.com.tw</a></b></div>
+          <div><span>服務項目</span><b>Revit 3D 建模・BIM 整合・施工圖</b></div>
+          <div><span>服務時間</span><b>週一至週五 09:00 – 18:00</b></div>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div><label for="f-name">聯絡人</label><input id="f-name" required placeholder="王小明"></div>
+        <div><label for="f-co">公司名稱</label><input id="f-co" placeholder="公司 / 單位"></div>
+        <div><label for="f-tel">聯絡電話</label><input id="f-tel" type="tel" placeholder="09xx-xxx-xxx"></div>
+        <div><label for="f-mail">電子郵件</label><input id="f-mail" type="email" required placeholder="name@company.com"></div>
+        <div class="full"><label>需要的服務</label>
+          <div class="chips">
+            <label><input type="checkbox"><span>建築結構建模</span></label>
+            <label><input type="checkbox"><span>機電建模</span></label>
+            <label><input type="checkbox"><span>管路建模</span></label>
+            <label><input type="checkbox"><span>碰撞檢討</span></label>
+            <label><input type="checkbox"><span>施工圖</span></label>
+            <label><input type="checkbox"><span>2D 轉 3D</span></label>
+            <label><input type="checkbox"><span>竣工模型</span></label>
+          </div></div>
+        <div class="full"><label for="f-msg">專案說明</label><textarea id="f-msg" placeholder="請簡述專案類型、規模、預計時程等"></textarea></div>
+        <div class="full"><button class="btn btn-dark" type="submit">送出需求 →</button></div>
+        <div class="form-ok" id="formOk">已為您開啟郵件程式並帶入填寫內容，請按下「傳送」完成寄出。若郵件程式沒有開啟，請直接來信 <a href="mailto:sjtech@bimotion.com.tw" class="mail">sjtech@bimotion.com.tw</a>。</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <img src="sj-logo.png" alt="升捷整合科技 標誌" style="height:56px;width:auto;margin-bottom:14px">
+        <p><b style="color:var(--ink)">升捷整合科技有限公司 SJTECH</b>　統一編號 83669627　<a href="mailto:sjtech@bimotion.com.tw" class="mail">sjtech@bimotion.com.tw</a></p>
+        <p>© <span id="yr"></span> SJTECH. All rights reserved.</p>
+      </div>
+      <nav class="foot-links">
+        <a href="#about">關於升捷</a><a href="#services">核心服務</a><a href="#industries">產業專業</a><a href="#projects">工程實績</a><a href="#workflow">工作流程</a><a href="#tech">數位技術</a><a href="#value">合作價值</a><a href="#contact">聯絡我們</a>
+      </nav>
+    </div>
+    <div class="giant">SJTECH<span>.</span></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ---------- NAV ---------- */
+const header=document.querySelector('header'),menu=document.getElementById('menu');
+document.getElementById('burger').onclick=()=>menu.classList.toggle('open');
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>10),{passive:true});
+const links=[...menu.querySelectorAll('a')];
+const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-45% 0px -50% 0px'});
+['about','services','industries','projects','workflow','tech','value','contact'].forEach(id=>spy.observe(document.getElementById(id)));
+const rv=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rv.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*70+'ms';rv.observe(el)});
+document.getElementById('yr').textContent=new Date().getFullYear();
+document.getElementById('aboutMore').onclick=e=>e.target.closest('.about-main').classList.add('open');
+
+/* ---------- INDUSTRIES ---------- */
+const IND=[
+ {n:'半導體廠房',en:'SEMICONDUCTOR FAB',d:'晶圓廠的機電系統密度極高，製程管線、特殊氣體、化學品供應與排氣系統交錯。我們以高精度 Revit 模型整合各系統，協助在有限空間中找出最佳排列。',p:['Bulk Gas / Special Gas 管路建模','化學品供應系統','Hook-up 二次配整合','Sub-Fab 機電空間檢討']},
+ {n:'高科技廠房',en:'HIGH-TECH FACILITY',d:'光電、面板、精密製造等廠房，對潔淨度與空調品質要求嚴苛。模型協助掌握無塵室天花、高架地板與設備間的空間關係。',p:['無塵室與 FFU 天花配置','高架地板下管線整合','MAU / 空調風管系統','設備基座與吊架預留']},
+ {n:'工業與物流廠房',en:'INDUSTRIAL & LOGISTICS',d:'大跨距鋼構、倉儲系統與廠務設備，需要清楚掌握淨高與動線。模型讓規劃與施工團隊快速確認空間可行性。',p:['大跨距鋼構建模','淨高與動線檢討','消防與灑水系統','廠務設備配置']}
+];
+const indList=document.getElementById('indList'),indPanel=document.getElementById('indPanel');
+function showInd(i){
+  [...indList.children].forEach((li,j)=>li.firstChild.classList.toggle('on',i===j));
+  const x=IND[i];
+  indPanel.innerHTML=`<div class="fade"><span class="mono" style="color:var(--orange)">${x.en}</span><h3>${x.n}</h3><p>${x.d}</p><div class="ind-points">${x.p.map(t=>`<div>${t}</div>`).join('')}</div></div><div class="big">0${i+1}</div>`;
+}
+IND.forEach((x,i)=>{const li=document.createElement('li');li.innerHTML=`<button>${x.n}<span>0${i+1}</span></button>`;li.firstChild.onclick=()=>showInd(i);indList.appendChild(li)});
+showInd(0);
+
+/* ---------- PROJECTS ---------- */
+const PJ=[
+ ['2025至今','台積電德國 F24P1','BG SG 系統','和淞科技','tsmc'],
+ ['2025至今','台積電 AP7P2','BGS 系統','聯亞科技','tsmc'],
+ ['2025至今','台積電 AP7P2','BG SG 系統','和淞科技','tsmc'],
+ ['2025至今','台積電 AP7P1','BGS 系統','聯亞科技','tsmc'],
+ ['2025至今','台積電 AP7P1','BG SG 系統','和淞科技','tsmc'],
+ ['2022~2024','台積電美國 F21P1','BG SG 系統','和淞科技','tsmc'],
+ ['2022至今','美光科技 A3','電控系統','帆宣系統科技','micron'],
+ ['2022至今','美光科技 A3 Phase 2','Special Gas 系統','大陽日酸','micron'],
+ ['2022~2023','美光科技 A3 Phase 2','Bulk Gas 系統','聯華氣體','micron'],
+ ['2022~2023','美光科技 TCP2','Bulk Gas 系統','聯華氣體','micron'],
+ ['2022至今','巨菱化工台中港廠房新建工程','化學及空調系統','大陽日酸','other'],
+ ['2021至今','瑞昱生醫竹北廠辦新建工程','建築結構系統','旭源營造','other'],
+ ['2021至今','士林科教館 B1 改建工程','機電全系統','唐億營造','other'],
+ ['2021至今','苗栗火車頭園區','機電全系統','隆程機電','other'],
+ ['2020~2021','台中港天力風電廠房新建工程','機電全系統','隆程機電','other'],
+ ['2019~2022','台電大潭備勤房屋及綜合大樓新建工程','機電全系統','華志營造','other'],
+ ['2020~2021','瑞昱竹科廠辦暨停車場新建工程','建築結構系統','旭源營造','other'],
+ ['2020','中科院廠房新建工程','建築機電系統','豐興營造','other'],
+ ['2020','后里美光廠房 A3','PCW 系統','井昇科技','micron'],
+ ['2020','美光科技廠房 A3 Phase 1','Bulk Gas 系統','聯華氣體','micron'],
+ ['2019至今','美光科技廠房 A3 Phase 1','Special Gas 系統','大陽日酸','micron']
+];
+const pjLive=p=>/至今|~$/.test(p[0]);
+const pjPeriod=t=>t.replace('至今',' – 至今').replace(/~$/,' –').replace('~',' – ');
+const pjBody=document.getElementById('pjBody'),pjFilter=document.getElementById('pjFilter');
+const pjTable=document.querySelector('.pj-table'),pjMore=document.getElementById('pjMore');
+pjTable.classList.add('collapsed');
+pjMore.onclick=()=>{const c=pjTable.classList.toggle('collapsed');pjMore.textContent=c?pjMore.dataset.more:'收合 ↑';if(c)document.getElementById('projects').scrollIntoView()};
+function showPj(k){
+  [...pjFilter.children].forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  const n=PJ.filter(p=>k==='all'||p[4]===k).length;pjMore.dataset.more=`顯示全部 ${n} 筆 ↓`;pjMore.hidden=n<=8;pjTable.classList.add('collapsed');pjMore.textContent=pjMore.dataset.more;
+  pjBody.innerHTML=PJ.filter(p=>k==='all'||p[4]===k).map(p=>`<div class="pj-row"><div class="pj-yr"><i${pjLive(p)?'':' class="done"'}></i>${pjPeriod(p[0])}</div><div class="pj-name">${p[1]}</div><div class="pj-sys">${p[2]}</div><div class="pj-co">${p[3]}</div></div>`).join('');
+}
+[['all','全部'],['tsmc','台積電'],['micron','美光科技'],['other','廠辦與公共工程']].forEach(([k,t])=>{const b=document.createElement('button');b.dataset.k=k;b.innerHTML=`${t}<span>${k==='all'?PJ.length:PJ.filter(p=>p[4]===k).length}</span>`;b.onclick=()=>showPj(k);pjFilter.appendChild(b)});
+document.getElementById('pjCount').textContent=PJ.length;
+document.getElementById('pjLive').textContent=PJ.filter(pjLive).length;
+showPj('all');
+
+/* ---------- LOD ---------- */
+const LOD=[
+ {n:'概念量體',tag:'LOD 100 / 概念量體',d:'只用量體表示空間與設備位置，確認放得下、放在哪裡。',c:'空間量體、設備概略位置',u:'可行性評估、前期規劃',o:'空間需求、初步配置圖'},
+ {n:'初步設計',tag:'LOD 200 / 初步設計',d:'主要系統以概略的路徑與尺寸呈現，可以比較不同配置方案。',c:'主要系統的概略路徑與大約尺寸',u:'基本設計、系統方案比較',o:'系統配置圖、概估數量'},
+ {n:'細部設計',tag:'LOD 300 / 細部設計',d:'每一條管線的管徑、高程與位置都精確建置，可以開始抓碰撞。',c:'管徑、高程、位置精確，依系統分類',u:'細部設計、碰撞檢討',o:'碰撞報告、綜合管線圖'},
+ {n:'施工製造',tag:'LOD 400 / 施工製造',d:'加入閥件、法蘭、吊架等施工細節，模型可以直接拿來出圖與預製。',c:'閥件、法蘭、吊架、接頭等施工細節',u:'現場施工、預製加工',o:'施工圖、預製圖、材料清單'},
+ {n:'竣工維運',tag:'LOD 500 / 竣工維運',d:'依現場實際施作更新，並帶入元件的規格與屬性資料，交付營運使用。',c:'與現場一致的模型，含設備規格與屬性',u:'竣工驗收、營運維護',o:'竣工模型、設備資產清單'}
+];
+const lodBtns=[...document.querySelectorAll('#lodTabs button')],lodGs=[...document.querySelectorAll('#lodSvg .g')];
+function setLod(l){
+  lodBtns.forEach((b,i)=>{b.classList.toggle('on',i===l);b.classList.toggle('done',i<l)});
+  lodGs.forEach(g=>{const on=l>=+g.dataset.min&&l<=+g.dataset.max;g.style.opacity=on?1:0});
+  const x=LOD[l];
+  document.getElementById('lodDesc').innerHTML=`<div class="fade"><b>${x.n}</b><p>${x.d}</p><dl class="lod-facts"><div><dt>模型內容</dt><dd>${x.c}</dd></div><div><dt>適用階段</dt><dd>${x.u}</dd></div><div><dt>可交付成果</dt><dd>${x.o}</dd></div></dl></div>`;
+  document.getElementById('lodLabel').textContent=x.tag;
+}
+lodBtns.forEach((b,i)=>b.onclick=()=>setLod(i));setLod(2);
+
+/* ---------- FORM ---------- */
+document.getElementById('form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const n=document.getElementById('f-name'),m=document.getElementById('f-mail');
+  let ok=true;[n,m].forEach(f=>{const bad=!f.value.trim()||(f.type==='email'&&!/^\S+@\S+\.\S+$/.test(f.value));f.style.borderColor=bad?'#E5484D':'';if(bad)ok=false});
+  if(!ok)return;
+  const v=id=>document.getElementById(id).value.trim();
+  const svc=[...e.target.querySelectorAll('.chips input:checked')].map(c=>c.nextElementSibling.textContent).join('、');
+  const body=['聯絡人：'+v('f-name'),'公司名稱：'+(v('f-co')||'（未填）'),'聯絡電話：'+(v('f-tel')||'（未填）'),'電子郵件：'+v('f-mail'),'需要的服務：'+(svc||'（未選）'),'','專案說明：',v('f-msg')||'（未填）'].join('\n');
+  const subject='【官網洽詢】'+(v('f-co')?v('f-co')+' ':'')+v('f-name');
+  window.__mailto='mailto:sjtech@bimotion.com.tw?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  location.href=window.__mailto;
+  document.getElementById('formOk').style.display='block';
+});
+
+/* ---------- 3D VIEWER ---------- */
+(function(){
+  if(!window.THREE)return;
+  const el=document.getElementById('stage');
+  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  el.appendChild(renderer.domElement);
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(32,1,.1,500);
+  scene.add(new THREE.HemisphereLight(0xffffff,0xd8dade,1.0));
+  const dl=new THREE.DirectionalLight(0xffffff,.55);dl.position.set(20,40,15);scene.add(dl);
+
+  const root=new THREE.Group();scene.add(root);
+  const groups={arch:new THREE.Group(),str:new THREE.Group(),mep:new THREE.Group(),pipe:new THREE.Group()};
+  Object.values(groups).forEach(g=>root.add(g));
+  const INK=0x101C26;
+  const edgeMat=new THREE.LineBasicMaterial({color:INK,transparent:true,opacity:.6});
+  const softEdge=new THREE.LineBasicMaterial({color:INK,transparent:true,opacity:.28});
+  const L=c=>new THREE.MeshLambertMaterial({color:c});
+  const anim=[];let delay=0,step=.01;
+  const stage=(d,s)=>{delay=d;step=s};
+  const reg=(o,y)=>{anim.push({o,y,d:delay});delay+=step;return o};
+  function raw(w,h,d,x,y,z,mat,parent,edges){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);parent.add(m);
+    if(edges)m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),edges===2?softEdge:edgeMat));
+    return m;
+  }
+  const box=(w,h,d,x,y,z,mat,group,edges=1)=>reg(raw(w,h,d,x,y,z,mat,group,edges),y);
+  function cyl(r,h,x,y,z,mat,parent,edges){
+    const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,24),mat);m.position.set(x,y,z);parent.add(m);
+    if(edges)m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,30),softEdge));
+    return m;
+  }
+  const UP=new THREE.Vector3(0,1,0);
+  function rod(a,b,r,mat,parent,seg=12){
+    const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b);
+    const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg),mat);
+    c.position.copy(A).lerp(B,.5);c.quaternion.setFromUnitVectors(UP,B.clone().sub(A).normalize());parent.add(c);return c;
+  }
+  const part=(parent,fn)=>{const g=new THREE.Group();parent.add(g);fn(g);return reg(g,0)};
+
+  // site
+  const grid=new THREE.GridHelper(72,36,0xC7C9C4,0xE0E1DC);grid.position.y=-.42;root.add(grid);
+
+  const W=26,D=16,H=4.2,F=3,ROOF=F*H+.15;
+  const XS=[-12,-6,0,6,12],ZS=[-7,0,7],TOOLS=[-7.5,-3,1.5,6];
+
+  /* ===== 結構 STRUCTURE ===== */
+  const S=groups.str;
+  const slabMat=new THREE.MeshLambertMaterial({color:0xF4F4F1,transparent:true,opacity:.34,depthWrite:false});
+  const baseMat=L(0xD9DBD6),colMat=L(0x1B2731),beamMat=L(0x4A5661);
+  stage(.15,.012);
+  box(W+2,.4,D+2,0,-.2,0,baseMat,S,2);
+  box(5,.4,7.4,16,-.2,-4.1,baseMat,S,2);
+  for(let f=0;f<F;f++){
+    XS.forEach(x=>ZS.forEach(z=>box(.6,H,.6,x,f*H+H/2,z,colMat,S,0)));
+    const yb=f*H+H-.43;
+    ZS.forEach(z=>box(W-2,.55,.36,0,yb,z,beamMat,S,0));
+    XS.forEach(x=>box(.36,.55,D-2,x,yb,0,beamMat,S,0));
+    [-9,-3,3,9].forEach(x=>box(.2,.34,D-2,x,yb+.1,0,beamMat,S,0));
+    part(S,g=>{rod([6,f*H+.15,-7],[12,f*H+H-.7,-7],.09,beamMat,g,8);rod([12,f*H+.15,-7],[6,f*H+H-.7,-7],.09,beamMat,g,8)});
+    box(W,.3,D,0,(f+1)*H,0,slabMat,S);
+  }
+
+  /* ===== 建築 ARCHITECTURE ===== */
+  const A=groups.arch;
+  const glassMat=new THREE.MeshLambertMaterial({color:0x9CC3E6,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false});
+  const wallMat=new THREE.MeshLambertMaterial({color:0xE4E6E8,transparent:true,opacity:.5,side:THREE.DoubleSide,depthWrite:false});
+  const frameMat=L(0xB7BCC2),whiteMat=L(0xFAFAF8);
+  stage(.95,.03);
+  for(let f=0;f<F;f++){
+    const y=f*H+H/2,h=H-.3;
+    part(A,g=>{ // front curtain wall
+      raw(W,h,.06,0,y,D/2,glassMat,g,2);
+      for(let x=-W/2;x<=W/2+.01;x+=2)raw(.1,h,.14,x,y,D/2+.04,frameMat,g);
+      raw(W,.1,.14,0,f*H+1.25,D/2+.04,frameMat,g);
+    });
+    part(A,g=>{ // side curtain wall
+      raw(.06,h,D,-W/2,y,0,glassMat,g,2);
+      for(let z=-D/2;z<=D/2+.01;z+=2)raw(.14,h,.1,-W/2-.04,y,z,frameMat,g);
+      raw(.14,.1,D,-W/2-.04,f*H+1.25,0,frameMat,g);
+    });
+    box(.1,H-.75,5.2,3.8,f*H+H/2-.2,-3.6,wallMat,A,2); // interior partition
+  }
+  // stair / lift core with penthouse
+  box(3,ROOF+2.5,3,-10.5,(ROOF+2.5)/2,-5.5,wallMat,A);
+  box(3.3,.18,3.3,-10.5,ROOF+2.6,-5.5,whiteMat,A,2);
+  // parapet
+  part(A,g=>{
+    raw(W,.75,.16,0,ROOF+.37,D/2-.08,whiteMat,g,2);raw(W,.75,.16,0,ROOF+.37,-D/2+.08,whiteMat,g,2);
+    raw(.16,.75,D,-W/2+.08,ROOF+.37,0,whiteMat,g,2);raw(.16,.75,D,W/2-.08,ROOF+.37,0,whiteMat,g,2);
+  });
+  // entrance
+  part(A,g=>{
+    raw(5.4,.18,2,3,3.05,D/2+1,whiteMat,g,1);
+    cyl(.08,3,.6,1.5,D/2+1.8,frameMat,g);cyl(.08,3,5.4,1.5,D/2+1.8,frameMat,g);
+    raw(2.6,2.7,.1,3,1.35,D/2+.1,new THREE.MeshLambertMaterial({color:0x5D7E9C,transparent:true,opacity:.55}),g,1);
+  });
+
+  /* ===== 機電 MEP (ducts / cable tray / equipment) ===== */
+  const M=groups.mep;
+  const ductMat=L(0xFFC2A6),trayMat=L(0xFF5B1F),eqMat=L(0xECEDEF),toolMat=L(0xDCE1E6),panelMat=L(0xE2481A),darkMat=L(0x3A4752);
+  stage(1.6,.014);
+  for(let f=0;f<F;f++){
+    const yd=f*H+H-1.45;
+    box(19.85,.6,1.3,-.075,yd,2.5,ductMat,M,2);                       // main supply duct
+    TOOLS.forEach(x=>part(M,g=>{                                       // branch + diffuser
+      raw(.7,.45,3.5,x,yd,4.9,ductMat,g,2);raw(.95,.1,.95,x,yd-.3,6.05,darkMat,g);
+    }));
+    box(22.5,.1,.7,-.25,f*H+H-.95,-1.2,trayMat,M,0);                    // cable tray
+    part(M,g=>{raw(22.5,.22,.05,-.25,f*H+H-.88,-.85,trayMat,g);raw(22.5,.22,.05,-.25,f*H+H-.88,-1.55,trayMat,g)});
+    box(.5,1.9,1.3,-11.3,f*H+1.1,-2.7,panelMat,M,2);                   // distribution panel
+    TOOLS.forEach(x=>part(M,g=>{                                       // process tools
+      raw(2.6,1.8,1.8,x,f*H+1.05,4.6,toolMat,g,1);raw(1,.5,.06,x,f*H+1.35,5.53,darkMat,g);
+    }));
+  }
+  box(.1,2*H+H-.95-.3,.7,-11.55,(2*H+H-.95+.3)/2,-1.2,trayMat,M,0);      // tray riser
+  box(1,ROOF+1.5-(H-1.75),1.1,10.4,(ROOF+1.5+H-1.75)/2,2.5,ductMat,M,2); // duct riser
+  // roof plant
+  part(M,g=>{ // AHU
+    raw(5,2,3,7.4,ROOF+1,2.5,eqMat,g,1);raw(5.04,.16,3.04,7.4,ROOF+.5,2.5,trayMat,g);
+    cyl(.55,.3,6.2,ROOF+2.15,2.5,darkMat,g,1);cyl(.55,.3,8.6,ROOF+2.15,2.5,darkMat,g,1);
+  });
+  [-3,.5].forEach(x=>part(M,g=>{ // cooling towers
+    cyl(1.3,2.1,x,ROOF+1.05,-4.5,eqMat,g,1);cyl(1.05,.3,x,ROOF+2.25,-4.5,darkMat,g,1);
+  }));
+  part(M,g=>{ // chiller
+    raw(4.5,1.6,2.2,-5,ROOF+.9,3.5,eqMat,g,1);raw(4.54,.16,2.24,-5,ROOF+.45,3.5,trayMat,g);
+    const c1=cyl(.42,3.9,-5,ROOF+1.95,3.1,darkMat,g);c1.rotation.z=Math.PI/2;
+  });
+  part(M,g=>{cyl(.28,3.4,4.2,ROOF+1.7,-6.2,eqMat,g,1);cyl(.28,3.4,5.3,ROOF+1.7,-6.2,eqMat,g,1)}); // exhaust stacks
+  // bulk gas tanks
+  [-5.6,-2.6].forEach(z=>part(M,g=>{
+    cyl(1.15,6,16,3.3,z,eqMat,g,1);
+    const top=new THREE.Mesh(new THREE.SphereGeometry(1.15,24,12,0,Math.PI*2,0,Math.PI/2),eqMat);top.position.set(16,6.3,z);top.scale.y=.6;g.add(top);
+    cyl(1.19,.16,16,1.6,z,trayMat,g);
+  }));
+
+  /* ===== 管路 PIPING ===== */
+  const P=groups.pipe;
+  const flangeMat=L(0x26323C);
+  function pipe(pts,color,r,flange){
+    const mat=L(color);
+    return part(P,g=>{
+      for(let k=0;k<pts.length-1;k++){
+        const c=rod(pts[k],pts[k+1],r,mat,g,14);
+        const s=new THREE.Mesh(new THREE.SphereGeometry(r*1.08,14,10),mat);s.position.set(...pts[k+1]);g.add(s);
+        if(flange){
+          const A=new THREE.Vector3(...pts[k]),B=new THREE.Vector3(...pts[k+1]),n=Math.floor(A.distanceTo(B)/4.2);
+          for(let i=1;i<=n;i++){const fl=new THREE.Mesh(new THREE.CylinderGeometry(r*1.5,r*1.5,.14,14),flangeMat);fl.position.copy(A).lerp(B,i/(n+1));fl.quaternion.copy(c.quaternion);g.add(fl)}
+        }
+      }
+    });
+  }
+  const BL=0x2F62F5,GR=0x14A37F,PU=0x7A5AF0;
+  const ZB=-5.6,ZG=-4.9,ZP=-4.2,XR=8,TOP=2*H+H-1.1;
+  stage(2.3,.03);
+  // supply from bulk tanks + vertical risers
+  pipe([[16,.6,ZB],[XR,.6,ZB],[XR,TOP,ZB]],BL,.24,1);
+  pipe([[16,.6,-2.6],[14,.6,-2.6],[14,.6,ZG],[XR,.6,ZG],[XR,TOP,ZG]],GR,.2,1);
+  pipe([[XR,H-1.1,ZP],[XR,ROOF+.6,ZP],[1.85,ROOF+.6,ZP]],PU,.17,1);
+  pipe([[-3,ROOF+.6,-3.2],[-3,ROOF+.6,2.4]],PU,.17,1);
+  for(let f=0;f<F;f++){
+    const y=f*H+H-1.1,yb=f*H+H-2,yt=f*H+1.95;
+    pipe([[XR,y,ZB],[-8.6,y,ZB]],BL,.24,1);
+    pipe([[XR,y,ZG],[-8.6,y,ZG]],GR,.2,1);
+    pipe([[XR,y,ZP],[-8.6,y,ZP]],PU,.17,1);
+    TOOLS.forEach((x,i)=>{
+      const c=i%2?GR:BL,z=i%2?ZG:ZB;
+      pipe([[x-.6,y,z],[x-.6,yb,z],[x-.6,yb,4.2],[x-.6,yt,4.2]],c,.13);
+      pipe([[x+.6,y,ZP],[x+.6,yb,ZP],[x+.6,yb,4.2],[x+.6,yt,4.2]],PU,.11);
+    });
+  }
+
+  root.position.y=-6.5;
+
+  // layer toggles
+  document.querySelectorAll('.layer').forEach(b=>b.onclick=()=>{const g=groups[b.dataset.layer];g.visible=!g.visible;b.classList.toggle('off',!g.visible)});
+
+  // controls
+  let theta=.75,phi=.95,vt=0,dragging=false,px=0,py=0,last=performance.now(),start=performance.now();
+  const R=60;
+  el.addEventListener('pointerdown',e=>{dragging=true;px=e.clientX;py=e.clientY;el.setPointerCapture(e.pointerId)});
+  el.addEventListener('pointermove',e=>{if(!dragging)return;theta-=(e.clientX-px)*.008;phi=Math.max(.35,Math.min(1.35,phi-(e.clientY-py)*.006));vt=-(e.clientX-px)*.008;px=e.clientX;py=e.clientY});
+  el.addEventListener('pointerup',()=>dragging=false);
+  el.addEventListener('pointercancel',()=>dragging=false);
+
+  function resize(){const w=el.clientWidth,h=el.clientHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+  new ResizeObserver(resize).observe(el);resize();
+
+  let visible=true;
+  new IntersectionObserver(es=>visible=es[0].isIntersecting).observe(el);
+
+  function tick(now){
+    requestAnimationFrame(tick);
+    if(!visible)return;
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    if(!dragging){vt*=.94;theta+=vt+dt*.12}
+    const t=(now-start)/1000;
+    anim.forEach(a=>{
+      const p=Math.max(0,Math.min(1,(t-a.d)/.7));const e=1-Math.pow(1-p,3);
+      a.o.position.y=a.y+(1-e)*10;a.o.visible=p>0;
+      a.o.scale.setScalar(.001+e*.999);
+    });
+    cam.position.set(R*Math.sin(phi)*Math.cos(theta),R*Math.cos(phi),R*Math.sin(phi)*Math.sin(theta));
+    cam.lookAt(1.2,.6,0);
+    renderer.render(scene,cam);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
